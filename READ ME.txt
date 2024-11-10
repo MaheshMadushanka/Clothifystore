@@ -1,0 +1,37 @@
+Project Timeline (12 days)
+Days 1-2: Research and analysis, create requirement list and use case diagram.
+Days 3-4: Design the ER diagram and wireframes for the web application.
+Days 5-6: Develop a prototype design using Figma or Adobe XD.
+Days 7-10: Begin development focusing on key components: user management, product catalog, and shopping cart.
+Days 11-12: Integrate JWT-based authentication, finalize order management, and perform testing/quality assurance.
+Use Case Diagram
+Create a diagram that includes:
+
+User interactions for registration, login, viewing products, adding to cart, and placing orders.
+Admin actions like adding, updating, and managing product stock.
+ER Diagram
+Focus on entities such as:
+
+User: (ID, Email, Password, Name, Address, etc.)
+Product: (ID, Name, Description, Category, Price, Stock)
+Order: (ID, UserID, OrderDate, Status, TotalAmount)
+Cart: (UserID, ProductID, Quantity)
+Wireframe
+Design wireframes for:
+
+User Dashboard: Navigation bar, product categories, and product list.
+Admin Dashboard: Add/update products and view orders.
+Shopping Cart and Checkout pages.
+Prototype Design
+Use Figma or Adobe XD for interactive mockups, including user and admin views.
+
+Requirements Analysis
+Ensure you capture:
+
+User registration and authentication flow.
+Product management features.
+Real-time inventory updates and order confirmation process.
+Research Tips
+Review industry standards for JWT implementation.
+Study security practices like hashing passwords (e.g., bcrypt) and using HTTPS (TLS/SSL).
+This approach will guide you through efficient project management and successful completion.
