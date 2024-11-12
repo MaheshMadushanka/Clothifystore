@@ -1,5 +1,6 @@
 package edu.icet.demo.service;
 
+import edu.icet.demo.entity.CustormerEntity;
 import edu.icet.demo.model.Custormer;
 
 import java.util.List;
@@ -7,5 +8,7 @@ import java.util.List;
 public interface CustormerService {
     void addCustormer(Custormer custormer);
 
-    List<Custormer> getAllCustormer();
+    List<CustormerEntity> getAllCustormer();
+
+    String deleteCustormerByID(Integer id);
 }

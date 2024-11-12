@@ -1,5 +1,6 @@
 package edu.icet.demo.controller;
 
+import edu.icet.demo.entity.CustormerEntity;
 import edu.icet.demo.model.Custormer;
 import edu.icet.demo.service.CustormerService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,17 @@ public class CustormerController {
     public void addCustormer(@RequestBody Custormer custormer){
         service.addCustormer(custormer);
     }
+
     @GetMapping("/get-all")
-    public List<Custormer> getAllCustormer(){
+    public List<CustormerEntity> getAllCustormer(){
         return service.getAllCustormer();
     }
+    @DeleteMapping("/delete-by-id/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String deleteCustormerByID(@PathVariable Integer id){
+        return service.deleteCustormerByID(id);
+    }
+    
+
+
 }
