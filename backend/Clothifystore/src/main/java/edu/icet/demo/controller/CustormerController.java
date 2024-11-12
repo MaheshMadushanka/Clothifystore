@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/custormer")
 @RequiredArgsConstructor
@@ -16,5 +18,9 @@ public class CustormerController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addCustormer(@RequestBody Custormer custormer){
         service.addCustormer(custormer);
+    }
+    @GetMapping("/get-all")
+    public List<Custormer> getAllCustormer(){
+        return service.getAllCustormer();
     }
 }
