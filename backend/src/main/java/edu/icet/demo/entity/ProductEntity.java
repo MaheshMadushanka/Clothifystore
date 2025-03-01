@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name ="product")
+@Table(name ="products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productID;
 
-    private String productName;
+    @Column(name = "product_name")
+    private String product_name;
 
     @ManyToOne
     @JoinColumn(name = "categoryID")
@@ -38,7 +38,10 @@ public class ProductEntity {
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Column(name = "product_description")
+    private String product_description;
 
-    private String productDescription;
-    
+    public Integer getProductID() {
+        return productID;
+    }
 }

@@ -13,13 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userID;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,name = "user_name" ,unique = true)
     private String userName;
 
     @Column(nullable = false)
@@ -33,6 +33,9 @@ public class UserEntity {
     private String userAddress;
 
     private String userNumber;
+
+    private Integer role;
+
 
     @OneToMany(mappedBy = "userID",cascade = CascadeType.ALL)
     private List<OrderEntity> orders;

@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product {
     private Integer productID;
-    private String productName;
-    private String productCategoryID;
+    private String product_name;
+    private Integer categoryID;
     private String productImageURL;
     private String productPrice;
     private String productQty;
-    private String productDescription;
+    private String product_description;
+
+    public void setProductImageURL(String imageUrl) {
+        this.productImageURL=imageUrl;
+    }
 }

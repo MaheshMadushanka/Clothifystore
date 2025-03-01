@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface ProductService {
 
-    public void addItem(Product item);
+     void addItem(Product item);
 
-    List<ProductEntity> getAllItem();
+    List<ProductEntity> getAllItem(Integer category);
 
     String deleteItem(Integer id);
 
     String updateItem(Product item);
+
+    List<ProductEntity> searchProduct(String query);
 }

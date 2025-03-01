@@ -6,8 +6,21 @@ spring:
     url: jdbc:mysql://localhost:3306/clothify
     username: root
     password: Mahesh@99
+    hikari:
+      maximum-pool-size: 10  # Adjust this based on your application needs
+      connection-timeout: 30000  # Timeout in milliseconds
+      idle-timeout: 600000  # Idle timeout in milliseconds
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   jpa:
     hibernate:
       ddl-auto: update
-
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG

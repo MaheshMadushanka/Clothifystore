@@ -2,9 +2,11 @@ package edu.icet.demo.service;
 
 import edu.icet.demo.entity.UserEntity;
 import edu.icet.demo.model.User;
+import edu.icet.demo.model.currentUser;
 import edu.icet.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +15,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository repository;
-    private final ModelMapper mapper;
+    @Autowired
+    private  UserRepository repository;
+    @Autowired
+    private  ModelMapper mapper;
 
     @Override
     public void addUser(User customer) {
@@ -47,4 +51,13 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         repository.save(mapper.map(user, UserEntity.class));
     }
+
+    @Override
+    public boolean signIn(currentUser request) {
+        UserEntity userEntity=repository.findByUserName(request.getEmail());
+        return userEntity.getPassword().equals(request.getPassword());
+
+    }
+
+
 }
