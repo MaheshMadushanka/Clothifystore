@@ -1,5 +1,6 @@
 package edu.icet.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,8 @@ public class CategoryEntity {
 
     @Column(nullable = false)
     private String categoryName;
-
-    @OneToMany(mappedBy = "categoryID",cascade =CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoryID", cascade = CascadeType.ALL)
     private List<ProductEntity> productList;
-
 }
+

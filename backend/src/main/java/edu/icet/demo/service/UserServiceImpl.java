@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signIn(currentUser request) {
         UserEntity userEntity=repository.findByUserName(request.getEmail());
+        System.out.println(userEntity.getPassword());
         return userEntity.getPassword().equals(request.getPassword());
 
     }

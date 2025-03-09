@@ -4,8 +4,6 @@ import edu.icet.demo.entity.UserEntity;
 import edu.icet.demo.model.User;
 import edu.icet.demo.model.currentUser;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.csrf.CsrfToken;
 
 import java.util.List;
 

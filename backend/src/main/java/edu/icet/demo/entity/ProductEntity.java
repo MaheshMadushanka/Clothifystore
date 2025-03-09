@@ -1,5 +1,7 @@
 package edu.icet.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "categoryID")
+    @JsonIgnore  // Prevent serialization of back-reference to CategoryEntity
     private CategoryEntity categoryID;
 
     private String productImageURL;
@@ -45,3 +48,4 @@ public class ProductEntity {
         return productID;
     }
 }
+

@@ -29,9 +29,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductEntity> getAllItem(Integer category) {
-        List<ProductEntity> allitem=new ArrayList<>();
-        repository.findByCategory(category).forEach(allitem::add);
-        return allitem;
+        List<ProductEntity> allItems = repository.findAll(); // Fetch all products
+        System.out.println("ProductServiceImpl came 1");
+
+        List<ProductEntity> selected = allItems.stream()
+                .filter(product -> product.getCategoryID().getCategoryID().equals(category))
+                .toList();
+
+        System.out.println("ProductServiceImpl came 2");
+        return selected;
     }
 
     @Override

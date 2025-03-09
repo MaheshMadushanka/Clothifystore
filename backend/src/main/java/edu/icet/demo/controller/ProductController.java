@@ -26,14 +26,10 @@ public class ProductController {
     @Autowired
     private  ProductService productService;
 
-    @PostMapping(value = "/add-product", consumes = "multipart/form-data")
+    @PostMapping(value = "/add-product")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addItem(@RequestParam("product") String productJson,@RequestParam("productImageURL") MultipartFile image) throws IOException {
-        System.out.println(productJson);
-        String imageUrl = saveImage(image);
-        Product product=mapper.readValue(productJson,Product.class);
-        System.out.println(product);
-        product.setProductImageURL(imageUrl);
+    public void addItem(@RequestBody Product product) {
+        System.out.println(product.getProduct_name());
         productService.addItem(product);
     }
 

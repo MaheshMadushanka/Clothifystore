@@ -7,13 +7,13 @@ import edu.icet.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -27,19 +27,22 @@ public class UserController {
         System.out.println("new user came");
         System.out.println(customer);
         service.addUser(customer);
-        //return ("User added successfully");
     }
 
-    @PostMapping("/signin")
-    public boolean signIn(@RequestBody currentUser request) {
-      return service.signIn(request);
+    @PostMapping("/signIn")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> signIn(@RequestBody currentUser request) {
+        System.out.println("new user came"+request.getPassword());
+      boolean success= service.signIn(request);
+        if (success) {
+            return ResponseEntity.ok().body(Map.of("message", "Sign-in successful"));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+        }
+
     }
 
-//    @GetMapping("/csrf-token")
-//    public Map<String, String> getCsrfToken(CsrfToken csrfToken) {
-//        System.out.println("get token");
-//        return Collections.singletonMap("token", csrfToken.getToken());
-//    }
+
     @GetMapping("/get-all")
     public List<UserEntity> getAllUser(){
         return service.getAllUser();
