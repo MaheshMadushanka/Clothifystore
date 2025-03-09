@@ -1,0 +1,120 @@
+/* General body styling */
+body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Form container styling */
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo styling */
+.form-signin img {
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+/* Heading styling */
+.form-signin h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 300;
+  color: #333;
+}
+
+/* Form input fields styling */
+.form-signin .form-floating {
+  margin-bottom: 15px;
+}
+
+.form-signin .form-floating input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-signin .form-floating input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Labels for floating effect */
+.form-signin .form-floating label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-signin .form-floating input:focus + label,
+.form-signin .form-floating input:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  color: #007bff;
+}
+
+/* Submit button styling */
+.form-signin button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-signin button:hover {
+  background-color: #0056b3;
+}
+
+/* Optional fields styling */
+.form-signin input[type="text"],
+.form-signin input[type="tel"] {
+  background-color: #f8f9fa;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .form-signin {
+    padding: 15px;
+  }
+
+  .form-signin h1 {
+    font-size: 20px;
+  }
+
+  .form-signin .form-floating input {
+    font-size: 14px;
+  padding: 8px;
+  border-radius: 3px;
+  }
+
+  .form-signin button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
