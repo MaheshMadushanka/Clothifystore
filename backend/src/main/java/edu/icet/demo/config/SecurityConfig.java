@@ -1,63 +1,70 @@
-//package edu.icet.demo.config;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.AuthenticationProvider;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.Customizer;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.web.servlet.config.annotation.CorsRegistry;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-//
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
-//public class SecurityConfig {
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-////    @Bean
-////    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-////        System.out.println("Security part");
-////        return
-////        httpSecurity.csrf(
-////                customizer->customizer.disable())
-////                    .authorizeHttpRequests(
-////                            reqest->
-////                                    reqest.anyRequest().authenticated())
-////                    .httpBasic(Customizer.withDefaults())
-////                    .sessionManagement(
-////                            session->
-////                                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-////                    .build();
-////    }
-//
-////    @Bean
-////    public AuthenticationProvider   userDetailsService(){
-////        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-////        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-////        provider.setUserDetailsService(userDetailsService);
-////        return  provider;
-////    }
-//
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedOrigins("http   ://localhost:5173")
-//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-//                        .allowedHeaders("*")
-//                        .allowCredentials(true);
-//            }
-//        };
-//    }
-//}
+package edu.icet.demo.config;
+
+import edu.icet.demo.security.JwtAuthenticationFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for JWT
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers(
+                                        "/user/signIn",
+                                        "/user/add-user",
+                                        "/product/search",
+                                        "/product/get-all-product/**"  // Allow category-based product fetching
+                                ).permitAll()
+                                .anyRequest().authenticated() // Protect all other endpoints (checkout)
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless JWT
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Apply JWT filter
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(authProvider);
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173") // Allow frontend domain
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*");
+            }
+        };
+    }
+}
