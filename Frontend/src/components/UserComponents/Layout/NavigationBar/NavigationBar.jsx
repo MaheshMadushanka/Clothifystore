@@ -13,7 +13,7 @@ function NavigationBar() {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [category, setCategory] = useState(1);
+  const [category, setCategory] = useState("Kid");
   const [products, setProducts] = useState([{
     productID : '',
     product_name : "",
@@ -21,12 +21,44 @@ function NavigationBar() {
     productPrice: "",
     product_description: ""
   }]);
+  useEffect(() => {
+    const updateCart = () => {
+      setCart(JSON.parse(localStorage.getItem("product")) || []);
+    };
+  
+    // Listen for cart updates
+    window.addEventListener("cartUpdated", updateCart);
+  
+    return () => {
+      window.removeEventListener("cartUpdated", updateCart);
+    };
+  }, []);
+  
+  const categoryMapping = {
+    Men: 3,
+    Women: 2,
+    Kid: 1,
+  };
+  useEffect(() => {
 
+    if (category) {
+      fetchProductsByCategory(categoryMapping[category] || null);
+    }
+  }, [category]);
 
+function ClearCart(){
+  localStorage.removeItem("product")
+  location.reload()
+
+}
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("product")) || []; // Parse and default to an empty array if not found
+    setCart(storedCart);
+  }, []);
 
   const fetchProductsByCategory = async (category) => {
     try {
-
+     
 
       const response = await fetch(
         `http://localhost:8081/product/get-all-product/${category}`,
@@ -42,7 +74,7 @@ function NavigationBar() {
         throw new Error("Failed to fetch products");
       }
       const products = await response.json();
-      console.log("CAME    ",products)
+      console.log("CAME2      ",products)
       setProducts(Array.isArray(products) ? products : []);
       setshow(true)
       
@@ -109,7 +141,7 @@ function NavigationBar() {
                 className={`nav-link px-2 ${category === categoryValue ? "link-secondary" : "link-body-emphasis"}`}
                 onClick={() => changeCategory(categoryValue)}
               >
-                <Link to={"/displayProduct"}>{cat}</Link>
+                <Link to={`/displayProduct/${cat}`}>{cat}</Link>
               </nav>
             </li>
           );
@@ -146,7 +178,9 @@ function NavigationBar() {
               <ul>
                 {cart.map((item, index) => (
                   <li key={index}>{item.product_name} - ${item.productPrice}</li>
+                  
                 ))}
+                <button onClick={ClearCart}>Clear Cart</button>
               </ul>
             ) : (
               <p>Cart is empty</p>

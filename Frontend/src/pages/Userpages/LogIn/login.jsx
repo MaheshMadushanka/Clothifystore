@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './login.css';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const logo = '/image/colthifyLogo.png';
 
 
 const LoginForm = () => {
+  const navigate=useNavigate();
+  const location=useLocation();
   const [user, setUser] = useState({
     userName: '',
     password: '',
@@ -44,7 +47,7 @@ try
 
    if(respon.ok){
     alert("Log in Succssesfuly..!");
-    setFormData({
+    setUser({
       userName:'' ,
       password: '',
       userEmail: '',
@@ -52,6 +55,9 @@ try
       userNumber: '',
       role:0
     });
+
+    const redirectPath=location.state?.form||"/";
+    navigate(redirectPath);
 
    }}
    catch(error){
@@ -142,6 +148,12 @@ try
       <button className="w-100 btn btn-lg btn-primary" onClick={sendForm} type="submit">
         Sign in
       </button>
+      <p className="mt-3">
+        Already have an account?{" "}
+        <span style={{ color: "blue", cursor: "pointer" }} onClick={() => navigate("/signin")}>
+          Sign in here
+        </span>
+      </p>
     </form>
   );
 };

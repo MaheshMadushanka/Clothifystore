@@ -1,143 +1,150 @@
+/* Homepage Container */
 .homepage-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem; /* Reduced padding */
+  flex-wrap: wrap;
+}
+
+/* Product Card */
+.homepage-card {
+  width: 250px; /* Smaller default width */
+  max-width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px; /* Slightly smaller */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+  overflow: hidden;
+  background-color: #fff;
+  margin: 0.8rem; /* Less margin */
+}
+
+/* Image Styling */
+.homepage-card-img {
+  width: 100%;
+  height: auto;
+  max-height: 220px; /* Reduced max height */
+  object-fit: contain;
+  border-bottom: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+/* Card Body */
+.homepage-card-body {
+  padding: 0.8rem; /* Reduced padding */
+}
+
+/* Product Name */
+.homepage-product-name {
+  font-size: 1.2rem; /* Smaller font */
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+/* Product Description */
+.homepage-product-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+/* Product Price */
+.homepage-product-price {
+  font-size: 1rem; /* Slightly smaller */
+  font-weight: bold;
+  color: #2A2196F3;
+  margin-bottom: 0.8rem;
+}
+
+/* Buttons */
+.homepage-card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem; /* Reduced gap */
+}
+
+.homepage-btn {
+  padding: 0.4rem 0.8rem; /* Smaller buttons */
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 6px; /* Slightly smaller */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* View Button */
+.homepage-btn-view {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.homepage-btn-view:hover {
+  background-color: #ddd;
+}
+
+/* Add to Cart Button */
+.homepage-btn-add {
+  background-color: #2A2196F3;
+  color: #fff;
+}
+
+.homepage-btn-add:hover {
+  background-color: #1b1578;
+}
+
+/* 🌍 Large Screens (Above 1200px) */
+@media (min-width: 1200px) {
   .homepage-card {
-    width: 280px;
-    max-width: 100%;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    background-color: #fff;
-    margin: 1rem;
+    width: 300px; /* Slightly bigger */
   }
-  
-  .homepage-card-img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    max-height: 250px; /* Limit height but show full image */
-    object-fit: contain; /* Ensure the full image is visible */
-    border-bottom: 1px solid #ddd;
-    background-color: #f8f8f8; /* Optional: Add a background color */
+}
+
+/* 🖥️ Medium Screens (Tablets, 768px to 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .homepage-card {
+    width: 260px; /* Reduced width */
   }
-  
-  
-  .homepage-card-body {
+
+  .homepage-product-name {
+    font-size: 1.1rem; /* Adjusted size */
+  }
+
+  .homepage-product-description {
+    font-size: 0.85rem;
+  }
+}
+
+/* 📱 Small Screens (Phones, below 768px) */
+@media (max-width: 767px) {
+  .homepage-container {
     padding: 1rem;
   }
-  
+
+  .homepage-card {
+    width: 90%; /* Take most of screen but not full width */
+    max-width: 240px; /* Ensure it stays small */
+  }
+
   .homepage-product-name {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
+    font-size: 1rem;
   }
-  
+
   .homepage-product-description {
-    font-size: 0.95rem;
-    color: #666;
-    margin-bottom: 1rem;
+    font-size: 0.8rem;
   }
-  
+
   .homepage-product-price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #2A2196F3;
-    margin-bottom: 1rem;
+    font-size: 0.95rem;
   }
-  
-  .homepage-card-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-  
+
   .homepage-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
   }
-  
-  .homepage-btn-view {
-    background-color: #f0f0f0;
-    color: #333;
+
+  .homepage-card-actions {
+    flex-direction: column; /* Stack buttons */
+    gap: 0.4rem;
   }
-  
-  .homepage-btn-view:hover {
-    background-color: #ddd;
-  }
-  
-  .homepage-btn-add {
-    background-color: #2A2196F3;
-    color: #fff;
-  }
-  
-  .homepage-btn-add:hover {
-    background-color: #1b1578;
-  }
-  
-  /* ✅ Responsive Design for Different Devices */
-  
-  /* 🌍 Large desktops (above 1200px) */
-  @media (min-width: 1200px) {
-    .homepage-card {
-      width: 360px;
-    }
-  }
-  
-  /* 🖥️ Medium devices (tablets, 768px to 1199px) */
-  @media (max-width: 1199px) and (min-width: 768px) {
-    .homepage-card {
-      width: 280px;
-    }
-  
-    .homepage-product-name {
-      font-size: 1.3rem;
-    }
-  
-    .homepage-product-description {
-      font-size: 0.9rem;
-    }
-  }
-  
-  /* 📱 Small devices (phones, below 768px) */
-  @media (max-width: 767px) {
-    .homepage-container {
-      padding: 1rem;
-    }
-  
-    .homepage-card {
-      width: 100%;
-    }
-  
-    .homepage-product-name {
-      font-size: 1.2rem;
-    }
-  
-    .homepage-product-description {
-      font-size: 0.85rem;
-    }
-  
-    .homepage-product-price {
-      font-size: 1.1rem;
-    }
-  
-    .homepage-btn {
-      font-size: 0.85rem;
-      padding: 0.4rem 0.8rem;
-    }
-  
-    .homepage-card-actions {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  }
-  
+}

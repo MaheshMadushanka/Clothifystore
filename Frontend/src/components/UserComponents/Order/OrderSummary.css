@@ -1,0 +1,60 @@
+.order-summary-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-image {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.order-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-total {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.pay-button {
+    background: #2A2196F3;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.pay-button:hover {
+    background: #30a5d4;
+}
+.back-button {
+    background-color: #e64949;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .back-button:hover {
+    background-color: #bbb;
+  }
+  

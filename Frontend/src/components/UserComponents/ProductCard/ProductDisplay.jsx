@@ -12,7 +12,7 @@ const ProductDisplay = ({ products = [] }) => {
           <ProductCard key={product.productID} product={product} />
         ))
       ) : (
-        <p>No products available</p> 
+        <p></p> 
       )}
     </div>
   );
