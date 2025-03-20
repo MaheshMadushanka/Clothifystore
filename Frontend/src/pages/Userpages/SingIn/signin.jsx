@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 import "./signin.css";
 
 const logo = "/image/colthifyLogo.png";
 
 function Signin() {
   const navigate = useNavigate(); 
-  const location = useLocation(); 
-  const [user, setUser] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false); // Show a loading state
+  const [user, setUser] = useState({ name: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,10 +18,10 @@ function Signin() {
     event.preventDefault();
     setLoading(true);
 
-    const { email, password } = user;
+    const { name, password } = user;
 
-    if (email.trim() === "" || password.trim() === "") {
-      alert("Enter Email and Password!");
+    if (name.trim() === "" || password.trim() === "") {
+      alert("Enter Username and Password!");
       setLoading(false);
       return;
     }
@@ -31,16 +30,30 @@ function Signin() {
       const response = await fetch("http://localhost:8081/user/signIn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, password }),
       });
 
       if (!response.ok) {
         throw new Error("Sign-in failed. Please check your credentials.");
-        
       }
-      const redirectPath = location.state?.from || "/";
-      navigate(redirectPath);
+
+      //  Parse JSON response correctly
+      const data = await response.json();
+      localStorage.setItem("userID", data.userID);
+      localStorage.setItem("authToken", data.token);
+      //localStorage.setItem("user", name);
+
+      console.log("Auth Token:", data.token);
+
+      //  Handle Redirect
+      const storedRedirectPath = localStorage.getItem("redirectPath");  // Get path if exists
+      const redirectPath = storedRedirectPath || "/homepage";  // Default to homepage
+
+      console.log("redirectPath before removal: " + storedRedirectPath);
+      localStorage.removeItem("redirectPath"); // Remove after getting it
+      console.log("redirectPath after removal: " + redirectPath);
       alert("Sign-in Successful!");
+      navigate(redirectPath);
     } catch (error) {
       alert("Login Error: " + error.message);
     } finally {
@@ -51,19 +64,19 @@ function Signin() {
   return (
     <main className="form-signin w-100 m-auto">
       <form onSubmit={handleSignin}>
-        <img className="mb-4" src={logo} alt="" width="72" height="57" />
+        <img className="mb-4" src={logo} alt="Colthify Logo" width="72" height="57" />
         <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div className="form-floating">
           <input
-            type="email"
+            type="text"
             className="form-control"
-            name="email"
-            value={user.email}
+            name="name"
+            value={user.name}
             onChange={handleInputChange}
-            placeholder="name@example.com"
+            placeholder="User Name"
           />
-          <label>Email address</label>
+          <label>User Name</label>
         </div>
 
         <div className="form-floating">
@@ -72,8 +85,8 @@ function Signin() {
             className="form-control"
             name="password"
             value={user.password}
-            placeholder="Password"
             onChange={handleInputChange}
+            placeholder="Password"
           />
           <label>Password</label>
         </div>

@@ -1,5 +1,5 @@
-import {React,useEffect} from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { React, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import "./OrderSummary.css";
 import { useAuth } from "../../../Context/AuthContext";
 
@@ -7,7 +7,7 @@ const OrderSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { product, quantity } = location.state || {};
-  const {user} =useAuth();
+  const { user } = useAuth();
 
   if (!product) return <p>No order details available</p>;
 
@@ -18,37 +18,52 @@ const OrderSummary = () => {
 
   // Function to save order to backend
 
-
+  const token = localStorage.getItem("authToken")
   useEffect(() => {
-    if (!user) {
-      navigate("/login",{state:{from:location.pathname}});
-    }else{
-      saveOrder
-    }
-  }, [user, navigate,location.pathname]);
-  
-  const saveOrder = async () => {
-    if(!user){
-      navigate("/login")
-    }
-    const orderData = {
-      productId: product.id, 
-      productName: product.product_name,
-      quantity: quantity,
-      price: productPrice,
-      shippingCost: shippingCost,
-      totalCost: totalCost,
-    };
+    if (!token) {
+      localStorage.setItem("redirectPath", "/order-summary")
+      navigate("/login");
+    } else {
+      const orderData = {
+        productId: product.id,
+        productName: product.product_name,
+        orderAmount: productPrice,
+        shippingCost: shippingCost,
+        totalCost: totalCost,
+      };
+      localStorage.setItem("orderData", JSON.stringify(orderData));
 
-    try {
-      const response = await axios.post("http://localhost:8081/product/", orderData);
-      console.log("Order saved:", response.data);
-      navigate("/payment"); // Navigate to payment after successful save
-    } catch (error) {
-      console.error("Error saving order:", error);
-      alert("Failed to save order. Please try again.");
     }
-  };
+  }, [user, navigate, location.pathname]);
+
+  // const saveOrder = async () => {
+
+
+  //   const orderData = {
+  //     productId: product.id, 
+  //     productName: product.product_name,
+  //     userID:localStorage.getItem("userID"),
+  //     orderAmount: productPrice,
+  //     shippingCost: shippingCost,
+  //     totalCost: totalCost,
+  //   };
+
+  //   try {
+  //     const response = await axios.post("http://localhost:8081/product/", {
+  //       method:"POST",
+  //       header:{
+  //         "Content-tyep":"application/json",
+  //         "Authorization":`Bearer ${token}`
+  //       },
+  //       body:JSON.stringify(orderData)
+  //     });
+  //     console.log("Order saved:", response.data);
+  //     navigate("/payment"); // Navigate to payment after successful save
+  //   } catch (error) {
+  //     console.error("Error saving order:", error);
+  //     alert("Failed to save order. Please try again.");
+  //   }
+  // };
 
   return (
     <div className="order-summary-container">
@@ -76,7 +91,7 @@ const OrderSummary = () => {
           ← Back to Product
         </button>
         <button className="pay-button" >
-          Proceed to Payment
+          <Link to="/userAddressForm">Proceed to Payment</Link>
         </button>
       </div>
     </div>

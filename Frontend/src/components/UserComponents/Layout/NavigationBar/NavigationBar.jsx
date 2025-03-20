@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./NavigationBar.css";
 import logo from "../../../../../public/image/colthifyLogo.png";
 import propic from "../../../../../public/image/profile.png";
@@ -7,33 +8,40 @@ import ProductDisplay from "../../ProductCard/ProductDisplay";
 
 function NavigationBar() {
 
-  const [show,setshow]=useState(false);
-  const [showCart,setshowCart]=useState(false);
+  const [show, setshow] = useState(false);
+  const [showCart, setshowCart] = useState(false);
   const [cart, setCart] = useState([])
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [category, setCategory] = useState("Kid");
+  const [category, setCategory] = useState("");
   const [products, setProducts] = useState([{
-    productID : '',
-    product_name : "",
+    productID: '',
+    product_name: "",
     productImageURL: "",
     productPrice: "",
     product_description: ""
   }]);
+  const navigate = useNavigate();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    setToken(localStorage.getItem("authToken"));
+  }, []);
+
   useEffect(() => {
     const updateCart = () => {
       setCart(JSON.parse(localStorage.getItem("product")) || []);
     };
-  
+
     // Listen for cart updates
     window.addEventListener("cartUpdated", updateCart);
-  
+
     return () => {
       window.removeEventListener("cartUpdated", updateCart);
     };
   }, []);
-  
+
   const categoryMapping = {
     Men: 3,
     Women: 2,
@@ -46,20 +54,18 @@ function NavigationBar() {
     }
   }, [category]);
 
-function ClearCart(){
-  localStorage.removeItem("product")
-  location.reload()
+  function ClearCart() {
+    localStorage.removeItem("product")
+    location.reload()
 
-}
+  }
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("product")) || []; // Parse and default to an empty array if not found
+    const storedCart = JSON.parse(localStorage.getItem("product")) || [];
     setCart(storedCart);
   }, []);
 
   const fetchProductsByCategory = async (category) => {
     try {
-     
-
       const response = await fetch(
         `http://localhost:8081/product/get-all-product/${category}`,
         {
@@ -74,11 +80,11 @@ function ClearCart(){
         throw new Error("Failed to fetch products");
       }
       const products = await response.json();
-      console.log("CAME2      ",products)
+      console.log("CAME2      ", products)
       setProducts(Array.isArray(products) ? products : []);
       setshow(true)
-      
-      
+
+
     } catch (error) {
       console.error("Product Fetch Error:", error.message);
     }
@@ -119,15 +125,34 @@ function ClearCart(){
   };
 
   useEffect(() => {
-    // setUser({
-    //   name: "John Doe",
-    //   profilePicture: "path-to-profile-picture.jpg",
-    // });
-  }, []);
+    setshow(false)
+  }, [navigate]);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("redirectPath")
+    setProducts([{
+      productID: '',
+      product_name: "",
+      productImageURL: "",
+      productPrice: "",
+      product_description: ""
+    }]);
+    setToken(null);
+
+    // Save current page **only if redirectPath is not already set**
+    if (!localStorage.getItem("redirectPath")) {
+      localStorage.setItem("redirectPath", "/homepage");
+    }
+
+    console.log("Stored Redirect Path before signing out: " + localStorage.getItem("redirectPath"));
+
+    navigate("/Signin");
+  };
 
   return (
     <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+      <a href="/homepage" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
         <img src={logo} alt="Logo" width="100" height="100" />
       </a>
 
@@ -170,7 +195,7 @@ function ClearCart(){
       )}
       <div className="cart-container">
         <button className="cart-button" onClick={() => setshowCart(!showCart)}>
-          🛒 Cart ({cart.length}) 
+          🛒 Cart ({cart.length})
         </button>
         {showCart && (
           <div className="cart-dropdown">
@@ -178,7 +203,7 @@ function ClearCart(){
               <ul>
                 {cart.map((item, index) => (
                   <li key={index}>{item.product_name} - ${item.productPrice}</li>
-                  
+
                 ))}
                 <button onClick={ClearCart}>Clear Cart</button>
               </ul>
@@ -189,19 +214,43 @@ function ClearCart(){
         )}
       </div>
 
-      <div className="dropdown text-end">
-        <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src={user?.profilePicture || propic} width="32" height="32" className="rounded-circle" />
-        </a>
-        <ul className="dropdown-menu text-small">
-          <li><a className="dropdown-item" href="#">Settings</a></li>
-          <li><a className="dropdown-item" href="#">Profile</a></li>
-          <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
+      {token ? (
+        <div className="dropdown">
+          <a
+            href="#"
+            className="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src={user?.profilePicture || propic}
+              width="32"
+              height="32"
+              className="rounded-circle"
+              alt="User"
+            />
+          </a>
+          <ul className="dropdown-menu text-small">
+            <li>
+              <a className="dropdown-item" href="#">Settings</a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">Profile</a>
+            </li>
+            <li>
+              <button className="dropdown-item" onClick={handleSignOut}>
+                Sign out
+              </button>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <button className="btn btn-primary" >
+          <Link to={"/Signin"} onClick={localStorage.setItem("redirectPath", "/homepage")}>Sign In</Link>
+        </button>
+      )}
       {show ? (<ProductDisplay products={products} />) : (<p></p>)}
-      
+
     </div>
   );
 }
