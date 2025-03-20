@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +20,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfig {
+@EnableWebSecurity
+public class SecurityConfig  {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -33,7 +35,9 @@ public class SecurityConfig {
                                         "/user/signIn",
                                         "/user/add-user",
                                         "/product/search",
-                                        "/product/get-all-product/**"  // Allow category-based product fetching
+                                        "/product/get-all-product/**",
+                                        "/Order/create",  // Allow the payment creation route
+                                        "/**" // Allow category-based product fetching
                                 ).permitAll()
                                 .anyRequest().authenticated() // Protect all other endpoints (checkout)
                 )

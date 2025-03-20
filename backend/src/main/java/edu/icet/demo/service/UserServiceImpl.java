@@ -53,12 +53,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean signIn(currentUser request) {
-        UserEntity userEntity=repository.findByUserName(request.getEmail());
-        System.out.println(userEntity.getPassword());
-        return userEntity.getPassword().equals(request.getPassword());
+    public currentUser signIn(currentUser request) {
+        UserEntity userEntity=mapper.map((repository.findByUserName(request.getName())),UserEntity.class);
+        if(null!=userEntity  && userEntity.getPassword().equals(request.getPassword())){
+            currentUser user = new currentUser(userEntity.getUserID(), userEntity.getUsername(), userEntity.getPassword());
+            return user;
+        }else {
+            System.out.println("not user found");
+            return null;
+        }
 
     }
-
 
 }

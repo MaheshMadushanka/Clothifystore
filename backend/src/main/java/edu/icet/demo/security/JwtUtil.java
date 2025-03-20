@@ -1,6 +1,5 @@
 package edu.icet.demo.security;
 
-
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.Data;
@@ -9,24 +8,25 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+
 @Data
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY="ljgligkdjfsadhfhhjkh234ohrjkwqhfr88iohfkhbfugmfdsaugfkjhiugsfbliggakjfg";
-    private static  final long EXPIRATION_TIME=1000*60*60;
-    // convert security key as the byte array
-    private Key getStringKey(){
+    private static final String SECRET_KEY = "ljgligkdjfsadhfhhjkh234ohrjkwqhfr88iohfkhbfugmfdsaugfkjhiugsfbliggakjfg";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour (fixed multiplication)
+
+    // Convert secret key to a valid HMAC SHA key
+    private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(String usernam){
+    // Generate JWT Token
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(usernam)
+                .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
-                .signWith(getStringKey(), SignatureAlgorithm.ES256)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -48,13 +48,14 @@ public class JwtUtil {
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
+
+    // Extract Claims Correctly (Fixed Key Usage)
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(getSigningKey()) // FIX: Use the correct signing key
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claimsResolver.apply(claims);
     }
 }
-
