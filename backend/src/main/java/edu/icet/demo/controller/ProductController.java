@@ -2,6 +2,7 @@ package edu.icet.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.demo.entity.ProductEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,13 @@ public class ProductController {
         productService.addItem(product);
     }
 
+    @GetMapping("/get-product-byID/{id}")
+    public List<Product> getProdctByID(@PathVariable Integer id, HttpServletRequest request){
+        System.out.println("Authorization: " + request.getHeader("Authorization"));
+        System.out.println("/get-product-byID/{id}"+id);
+        return productService.getProdctByID(id);
+    }
+
     @GetMapping("/get-all-product/{category}")
     public List<ProductEntity> getAllItem(@PathVariable Integer category){
         System.out.println(category+"   category");
@@ -42,21 +50,21 @@ public class ProductController {
     @DeleteMapping("/delete-product-byID/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String deleteItem(@PathVariable Integer id){
+        System.out.println("product id to delete "+id);
         return productService.deleteItem(id);
     }
 
     @PutMapping("/update-product")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String updateItem(@RequestBody Product item){
+        System.out.println("/update-product on work");
         return productService.updateItem(item);
     }
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<ProductEntity> searchProduct(@RequestParam String query){
-//        List<ProductEntity> list=productService.searchProduct(query);
-//        System.out.println("ok");
-//        System.out.println(list);
+
         return productService.searchProduct(query);
 
     }

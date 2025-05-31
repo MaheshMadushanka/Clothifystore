@@ -1,5 +1,6 @@
 package edu.icet.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,15 +19,15 @@ public class OrderItemEntity {
     private Integer orderItemID;
 
     @ManyToOne
-    @JoinColumn(name = "orderID",nullable = false)
-    private OrderEntity orderID;
+    @JoinColumn(name = "orderid")
+    @JsonBackReference
+    private OrderEntity order;
 
     @ManyToOne
-    @JoinColumn(name = "productID",nullable = false)
-    private ProductEntity productID;
+    @JoinColumn(name = "productid", nullable = false)
+    private ProductEntity product;
 
     private Integer orderItemQty;
 
     private double priceAtPurchase;
-
 }

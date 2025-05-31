@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +26,13 @@ public class UserServiceImpl implements UserService {
         repository.save(mapper.map(customer, UserEntity.class));
     }
 
-    @Override
-    public List<UserEntity> getAllUser() {
-        List<UserEntity> userEntities=new ArrayList<>();
-        repository.findAll().forEach(userEntities::add);
-        return userEntities;
-    }
+        @Override
+        public List<User> getAllUser() {
+            return repository.findAll().stream()
+                    .map(user -> mapper.map(user, User.class))
+                    .toList(); // Cleaner & simpler
+        }
+
 
     @Override
     public String deleteUserByID(Integer id) {
@@ -54,10 +56,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public currentUser signIn(currentUser request) {
-        UserEntity userEntity=mapper.map((repository.findByUserName(request.getName())),UserEntity.class);
+        System.out.println("service layer  user name "+request.getUsername());
+        UserEntity userEntity=mapper.map((repository.findByUserName(request.getUsername())),UserEntity.class);
+        System.out.println(userEntity.getUsername()+"  Name of user");
+        if (userEntity.getUsername() == null) {
+            System.out.println("User not found in the database.");
+            return null;
+        }
+
         if(null!=userEntity  && userEntity.getPassword().equals(request.getPassword())){
-            currentUser user = new currentUser(userEntity.getUserID(), userEntity.getUsername(), userEntity.getPassword());
-            return user;
+            System.out.println(" service layer found user profile from DB "+ userEntity.getUserProfileURl());
+            return new currentUser(userEntity.getUserID(), userEntity.getUsername(), userEntity.getPassword(),userEntity.getRole(),userEntity.getUserProfileURl());
         }else {
             System.out.println("not user found");
             return null;

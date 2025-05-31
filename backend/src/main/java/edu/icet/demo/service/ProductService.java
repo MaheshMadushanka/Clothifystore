@@ -16,4 +16,6 @@ public interface ProductService {
     String updateItem(Product item);
 
     List<ProductEntity> searchProduct(String query);
+
+    List<Product> getProdctByID(Integer id);
 }

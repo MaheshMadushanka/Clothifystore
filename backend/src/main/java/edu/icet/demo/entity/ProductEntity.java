@@ -33,7 +33,7 @@ public class ProductEntity {
 
     private String productPrice;
 
-    private String productQty;
+    private Integer productQty;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

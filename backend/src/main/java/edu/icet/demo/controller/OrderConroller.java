@@ -1,15 +1,20 @@
 package edu.icet.demo.controller;
 
+import edu.icet.demo.entity.OrderItemEntity;
 import edu.icet.demo.model.Order;
+import edu.icet.demo.model.OrderItem;
+import edu.icet.demo.model.UserOrders;
 import edu.icet.demo.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,16 +34,44 @@ public class OrderConroller {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveOrder(@RequestBody Order order){
-         orderService.saveOrder(order);
+    public void saveOrder(@RequestBody Order order) {
+        System.out.println("Received Order Data: " + order);
+        for (OrderItem item : order.getOrderItems()) {
+            if (item.getProductID() == null) {
+                throw new IllegalArgumentException("Product cannot be null for OrderItem");
+            }
+        }
+        // Additional logging to check specific fields
+        System.out.println("User ID: " + order.getUserID());
+        System.out.println("Total Cost: " + order.getTotalCost());
+        System.out.println("Order Items: " + order.getOrderItems());
+
+        orderService.saveOrder(order);
     }
+    @GetMapping("/get_order_details/{userID}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+        public ResponseEntity<List<Order>> sendOrderDetails(@PathVariable Integer userID){
+            return  orderService.sendOrderDetails(userID);
+    }
+
 
     @PostMapping("/create")
     public Map<String,String> createPayment(@RequestBody Map<String,String> request){
-        System.out.println("createPayment");
-        String orderID=request.get("orderID");
-        BigDecimal amount=new BigDecimal(request.get("amount"));
-        String currency=request.get("currency");
+        String orderID = request.get("orderID");
+        String amountStr = request.get("amount");
+        String currency = request.get("currency");
+
+        if (orderID == null || orderID.isEmpty()) {
+            throw new IllegalArgumentException("OrderID is missing");
+        }
+        if (amountStr == null || amountStr.isEmpty()) {
+            throw new IllegalArgumentException("Amount is missing");
+        }
+        if (currency == null || currency.isEmpty()) {
+            throw new IllegalArgumentException("Currency is missing");
+        }
+
+        BigDecimal amount = new BigDecimal(amountStr);
 
         String hashkey=orderService.generatePaymentHash(orderID,amount,currency);
         Map<String,String> paymentDetails=new HashMap<>();

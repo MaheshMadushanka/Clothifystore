@@ -40,7 +40,7 @@ public class UserEntity implements UserDetails {
     private Integer role;
 
 
-    @OneToMany(mappedBy = "userID",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
 
     @Override
@@ -50,6 +50,6 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return userName;
     }
 }

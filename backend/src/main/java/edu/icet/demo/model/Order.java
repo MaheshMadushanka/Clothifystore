@@ -13,7 +13,7 @@ import java.util.List;
 public class Order {
     private Integer orderID;
     private Integer userID;
-    private Integer phoneNumber;
+    private String  phoneNumber;
     private String firstName;
     private String lastName;
     private double orderAmount;
@@ -24,7 +24,10 @@ public class Order {
     private String country;
     private String state;
     private Integer zipCode;
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate =LocalDateTime.now();
     private List<OrderItem> orderItems;
+    private String email;
+    private String productId;
+    private String productName;
 
 }

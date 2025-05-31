@@ -37,14 +37,14 @@ public class UserController {
     @PostMapping("/signIn")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> signIn(@RequestBody currentUser request) {
-        System.out.println("new user came CONROller layer " + request.getName());
+        System.out.println("new user came CONROller layer " + request.getUsername());
         currentUser user = service.signIn(request);
         if (null != user) {
-            System.out.println("User came from Service layer  " + user.getUsername());
+            System.out.println("User came from Service layer  1" + user.getUsername());
             String token = jwtUtil.generateToken(user.getUsername());
             System.out.println("Token  " + token);
             Map<String, Object> response = Map.of("message", "Sign-in successful", "token", token,
-                    "userID", user.getUserID());
+                    "userID", user.getUserID(),"roleID",user.getRole(),"userProfileURl", user.getUserProfileURl() );
             return ResponseEntity.ok().body(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
@@ -54,7 +54,7 @@ public class UserController {
 
 
     @GetMapping("/get-all")
-    public List<UserEntity> getAllUser() {
+    public List<User> getAllUser() {
         return service.getAllUser();
     }
 
@@ -73,6 +73,8 @@ public class UserController {
     @PutMapping("/update-user")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateUser(@RequestBody User user) {
+        System.out.println("Update user came  password is"+user.getUserID());
+        System.out.println(user);
         service.updateUser(user);
     }
 

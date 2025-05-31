@@ -1,21 +1,23 @@
 package edu.icet.demo.model;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-public class currentUser  implements UserDetails {
+@NoArgsConstructor
+public class currentUser implements UserDetails {
     private Integer userID;
-    private String Name;
+    private String userName;
     private String password;
+    private Integer role;
+    private String userProfileURl;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,26 +26,26 @@ public class currentUser  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return Name;
+        return userName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

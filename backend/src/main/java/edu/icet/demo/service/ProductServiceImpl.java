@@ -1,5 +1,6 @@
 package edu.icet.demo.service;
 
+import edu.icet.demo.entity.CategoryEntity;
 import edu.icet.demo.entity.ProductEntity;
 import edu.icet.demo.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
@@ -16,15 +17,22 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private  ProductRepository repository;
-    @Autowired
-    private ModelMapper mapper;
+
+    private final ProductRepository repository;
+    private final ModelMapper mapper;
 
     @Override
     public void addItem(Product item) {
         System.out.println(item);
-        repository.save(mapper.map(item, ProductEntity.class));
+        ProductEntity entity = mapper.map(item, ProductEntity.class);
+
+        // Manually set CategoryEntity
+        CategoryEntity category = new CategoryEntity();
+        category.setCategoryID(item.getCategoryID());
+
+        entity.setCategoryID(category);
+
+        repository.save(entity);
     }
 
     @Override
@@ -51,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String updateItem(Product item) {
+        System.out.println("/update-product work on service layer");
         ProductEntity productEntity=mapper.map(item, ProductEntity.class);
         Optional<ProductEntity> optionalExistingEntity = repository.findById(productEntity.getProductID());
 
@@ -66,6 +75,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductEntity> searchProduct(String query) {
         return repository.searchProduct(query);
+    }
+
+    @Override
+    public List<Product> getProdctByID(Integer id) {
+        Optional<ProductEntity> optionalEntity = repository.findById(id);
+
+        if (optionalEntity.isPresent()) {
+            Product product = mapper.map(optionalEntity.get(), Product.class);
+            return List.of(product);
+        } else {
+            return List.of();
+        }
     }
 
 }

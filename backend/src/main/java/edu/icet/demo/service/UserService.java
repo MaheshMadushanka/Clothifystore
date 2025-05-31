@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService   {
     void addUser(User customer);
 
-    List<UserEntity> getAllUser();
+    List<User> getAllUser();
 
     String deleteUserByID(Integer id);
 

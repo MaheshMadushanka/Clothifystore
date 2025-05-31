@@ -5,14 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
-    private Integer orderItemID;
+@NoArgsConstructor
+public class UserOrders {
     private Integer orderID;
-    private Integer productID;
+    private Integer orderItemQty;
+
     private String productName;
     private String productImageURL;
-    private Integer orderItemQty;
-    private double priceAtPurchase;
+
+    private double orderAmount;
+    private double shippingCost;
+    private double totalCost;
 }

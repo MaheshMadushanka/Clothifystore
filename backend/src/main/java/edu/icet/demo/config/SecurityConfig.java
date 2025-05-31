@@ -3,6 +3,7 @@ package edu.icet.demo.config;
 import edu.icet.demo.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,26 +27,34 @@ public class SecurityConfig  {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  // import org.springframework.http.HttpMethod;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for JWT
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(
+                        auth
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ Allow CORS preflight requests
+                                .requestMatchers(
                                         "/user/signIn",
                                         "/user/add-user",
                                         "/product/search",
                                         "/product/get-all-product/**",
-                                        "/Order/create",  // Allow the payment creation route
-                                        "/**" // Allow category-based product fetching
+                                        "/error"
                                 ).permitAll()
-                                .anyRequest().authenticated() // Protect all other endpoints (checkout)
+                                .requestMatchers("/Order/save",
+                                        "/product//update-product",
+                                        "/Order/create",
+                                        "/product/delete-product-byID/*").authenticated() // Protect Order API
+                                .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless JWT
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Apply JWT filter
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -67,7 +76,8 @@ public class SecurityConfig  {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:5173") // Allow frontend domain
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(true);
             }
         };
     }
