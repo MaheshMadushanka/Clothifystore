@@ -21,6 +21,12 @@ const ProductDetails = () => {
       productPrice: Number(product.productPrice), 
     };
     navigate("/order-summary", { state: { product: updatedProduct, quantity } });
+    console.log("product id",product)
+    localStorage.setItem("quantity",quantity),
+    localStorage.setItem("productId",product.productID)
+    localStorage.setItem("productNname",product.product_name)
+    localStorage.setItem("productPrice",product.productPrice)
+    
   };
   
   if (!product) return <p>No product details available</p>;

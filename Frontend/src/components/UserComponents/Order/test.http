@@ -1,0 +1,21 @@
+POST http://localhost:8080/orders/save
+Content-Type: application/json,
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDI3MzgwMDgsImV4cCI6MTc0Mjc0MTYwOH0.0jL-FWja0jHXi513pK4aEvih2yBGuCOvF6G-q6DJXl0
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "orderAddressLine1": "123 Main St",
+  "orderAddressLine2": "Apt 4B",
+  "country": "USA",
+  "state": "California",
+  "zipCode": 90210,
+  "phoneNumber": "9876543210",
+  "email": "john.doe@example.com",
+  "productId": "101",
+  "productName": "Cotton T-Shirt",
+  "userID": "12345",
+  "orderAmount": 29.99,
+  "shippingCost": 5.99,
+  "totalCost": 35.98
+}

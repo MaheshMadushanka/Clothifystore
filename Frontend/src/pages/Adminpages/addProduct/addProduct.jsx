@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import "./addProduct.css"
 
 const AddProduct = () => {
-  
 
-const [load,setload]=useState(false)
+
+  const [load, setload] = useState(false)
   const [product, setProduct] = useState({
     product_name: '',
-    categoryID: 1 ,
+    categoryID: 1,
     productImageURL: '',
     productPrice: '',
     productQty: '',
@@ -19,31 +19,31 @@ const [load,setload]=useState(false)
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = async(e) => {
-    try{
-    const file = e.target.files[0];
-      if(!file) return
-    setload(true)
-    const data=new FormData();
-    data.append("file",file)
-    data.append("upload_preset","Clothifystore")
-    data.append("cloud_name","dvqjf3iyq")//4BLC265SozOmiYhWn3h3avbLJ88  196452594447521
+  const handleImageChange = async (e) => {
+    try {
+      const file = e.target.files[0];
+      if (!file) return
+      setload(true)
+      const data = new FormData();
+      data.append("file", file)
+      data.append("upload_preset", "Clothifystore")
+      data.append("cloud_name", "dvqjf3iyq")//4BLC265SozOmiYhWn3h3avbLJ88  196452594447521
 
-    const res = await fetch("https://api.cloudinary.com/v1_1/dvqjf3iyq/image/upload",{
-      method:"POST",
-      body:data
-    });
+      const res = await fetch("https://api.cloudinary.com/v1_1/dvqjf3iyq/image/upload", {
+        method: "POST",
+        body: data
+      });
 
-    const ImageUrl=await res.json();
-    setload(false)
-    console.log(ImageUrl)
-  
-    setProduct({ ...product, productImageURL: ImageUrl.secure_url });
+      const ImageUrl = await res.json();
+      setload(false)
+      console.log(ImageUrl)
 
-  }
-    
-    catch(error){
-      console.log("Error uploading image:", error);      
+      setProduct({ ...product, productImageURL: ImageUrl.secure_url });
+
+    }
+
+    catch (error) {
+      console.log("Error uploading image:", error);
     }
 
   };
@@ -51,12 +51,12 @@ const [load,setload]=useState(false)
   const handleCategoryChange = (e) => {
     setProduct({ ...product, categoryID: parseInt(e.target.value) });
   };
-  
-  
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:8081/product/add-product', {
         method: 'POST',
@@ -72,7 +72,7 @@ const [load,setload]=useState(false)
           productImageURL: product.productImageURL
         }),
       });
-  
+
       if (response.ok) {
         alert("Product added successfully");
         setProduct({
@@ -90,7 +90,7 @@ const [load,setload]=useState(false)
       console.error('Error:', error);
     }
   };
-  
+
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
@@ -110,40 +110,40 @@ const [load,setload]=useState(false)
           </label>
         </div>
         <div style={{ marginBottom: '15px' }}>
-  <label>Product Category:</label>
-  <div style={{ marginTop: '5px' }}>
-    <label style={{ marginRight: '10px' }}>
-      <input
-        type="radio"
-        name="categoryID"
-        value={1}
-        checked={product.categoryID === 1}
-        onChange={handleCategoryChange}
-      />
-      Kid
-    </label>
-    <label style={{ marginRight: '10px' }}>
-      <input
-        type="radio"
-        name="categoryID"
-        value={2}
-        checked={product.categoryID ===2}
-        onChange={handleCategoryChange}
-      />
-      Women
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="categoryID"
-        value={3}
-        checked={product.categoryID === 3}
-        onChange={handleCategoryChange}
-      />
-      Men
-    </label>
-  </div>
-</div>
+          <label>Product Category:</label>
+          <div style={{ marginTop: '5px' }}>
+            <label style={{ marginRight: '10px' }}>
+              <input
+                type="radio"
+                name="categoryID"
+                value={1}
+                checked={product.categoryID === 1}
+                onChange={handleCategoryChange}
+              />
+              Kid
+            </label>
+            <label style={{ marginRight: '10px' }}>
+              <input
+                type="radio"
+                name="categoryID"
+                value={2}
+                checked={product.categoryID === 2}
+                onChange={handleCategoryChange}
+              />
+              Women
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="categoryID"
+                value={3}
+                checked={product.categoryID === 3}
+                onChange={handleCategoryChange}
+              />
+              Men
+            </label>
+          </div>
+        </div>
         <div style={{ marginBottom: '15px' }}>
           <label>
             Product Image:
@@ -195,7 +195,7 @@ const [load,setload]=useState(false)
           </label>
         </div>
         <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
-          {load ? "Photo is Uploading..." :"Add Product"}
+          {load ? "Photo is Uploading..." : "Add Product"}
         </button>
       </form>
     </div>

@@ -10,6 +10,11 @@ import LoginForm from './pages/Userpages/LogIn/login'
 import Signin from './pages/Userpages/SingIn/signin'
 import Logout from './pages/Userpages/Logout/logout'
 import UserAddressForm from './components/UserComponents/Order/UserAddressForm '
+import AddProduct from './pages/Adminpages/addProduct/addProduct'
+import Editproduct from './components/AdminComponents/Edit Product/Editproduct'
+import AdminUserList from './components/AdminComponents/get All User/AdminUserList'
+import ProfileSetting from './components/UserComponents/ProfileSetting/ProfileSetting'
+import OrdersPage from './components/UserComponents/Order/viewOrder/OrdersPage'
 //import Payhere from './components/UserComponents/Payhere'
 
 function App() {
@@ -21,6 +26,7 @@ function App() {
         <Route path="/homepage" element={<Layout><Homepage/></Layout>}/>
         <Route path='/login' element={<LoginForm/>}/>
         <Route path='/Signin' element={<Signin/>}/>
+        <Route path="/addProduct" element={<AddProduct/>}/>
         <Route path="/displayProduct/Men" element={<Layout><ProductDisplay/></Layout>}/>
         <Route path="/displayProduct/Kid" element={<Layout><ProductDisplay/></Layout>}/>
         <Route path="/displayProduct/Women" element={<Layout><ProductDisplay/></Layout>}/>
@@ -29,6 +35,10 @@ function App() {
         <Route path="/order-summary" element={<OrderSummary />} />
         <Route path="/Logout" element={<Logout />} />
         <Route path="/userAddressForm" element={<UserAddressForm/>}/>
+        <Route path="/editeProduct/:id"element={<Editproduct/>}/>
+        <Route path="/adminUserList" element={<Layout><AdminUserList/></Layout>}/>
+        <Route path="/profileSetting" element={<ProfileSetting/>}/>
+        <Route path="/ordersPage" element={<OrdersPage/>}/>
         {/* <Route path="/payhere" element={<Payhere/>}/> */}
 
 

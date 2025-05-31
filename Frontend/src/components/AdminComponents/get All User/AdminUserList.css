@@ -1,0 +1,188 @@
+/* AdminUserList.css */
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .admin-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eaeaea;
+    font-size: 28px;
+  }
+  
+  /* Controls Section */
+  .admin-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    flex-grow: 1;
+    margin-right: 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+  
+  .refresh-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .refresh-button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Table Styles */
+  .users-table-container {
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  
+  .users-table th {
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 2px solid #eaeaea;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  
+  .users-table th:hover {
+    background-color: #eef1f5;
+  }
+  
+  .users-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eaeaea;
+    color: #333;
+  }
+  
+  .users-table tbody tr:hover {
+    background-color: #f5f9ff;
+  }
+  
+  .users-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .view-button, .delete-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+  
+  .view-button {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .view-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .delete-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Status Messages */
+  .loading-spinner {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .no-results {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+    font-style: italic;
+  }
+  
+  /* Footer */
+  .admin-footer {
+    margin-top: 20px;
+    text-align: right;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .admin-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .search-container {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+    
+    .refresh-button {
+      width: 100%;
+    }
+    
+    .admin-title {
+      font-size: 24px;
+    }
+  }

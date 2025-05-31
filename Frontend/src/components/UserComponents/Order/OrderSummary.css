@@ -1,60 +1,261 @@
+/* Enhanced Order Summary Styles */
 .order-summary-container {
     max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    margin: 60px auto;
+    padding: 35px 40px;
+    background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 
+                0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+    color: #2d3748;
+  }
+  
+  /* Decorative top border */
+  .order-summary-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, #2A2196F3, #30a5d4);
+  }
+  
+  /* Page Title */
+  .order-summary-container h2 {
     text-align: center;
-}
-
-.order-item {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  .order-summary-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #2A2196F3;
+    border-radius: 3px;
+  }
+  
+  /* Order Item */
+  .order-item {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.order-image {
-    width: 100px;
-    height: auto;
+    gap: 25px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    border-left: 3px solid #2A2196F3;
+    text-align: left;
+  }
+  
+  /* Product Image */
+  .order-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
     border-radius: 8px;
-}
-
-.order-name {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .order-image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Product Details */
+  .order-details {
+    flex: 1;
+  }
+  
+  .order-name {
     font-size: 20px;
-    font-weight: bold;
-}
-
-.order-total {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.pay-button {
-    background: #2A2196F3;
-    color: white;
-    padding: 10px 18px;
-    border: none;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 10px;
+  }
+  
+  .order-details p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #4a5568;
+  }
+  
+  /* Price information with badges */
+  .price-info {
+    display: inline-block;
+    background-color: #ebf5ff;
+    color: #3182ce;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+  
+  /* Order Total Section */
+  .order-total {
+    margin-top: 25px;
+    background-color: #f7fafc;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .order-total p {
+    font-size: 16px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+  
+  .order-total h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px 0;
+    color: #2A2196F3;
+  }
+  
+  /* Buttons Container */
+  .order-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0 10px;
+  }
+  
+  /* Back Button */
+  .back-button {
+    background-color: white;
+    color: #4a5568;
+    padding: 12px 20px;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-}
-
-.pay-button:hover {
-    background: #30a5d4;
-}
-.back-button {
-    background-color: #e64949;
-    color: black;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
   
   .back-button:hover {
-    background-color: #bbb;
+    background-color: #f7fafc;
+    color: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
+  .back-button::before {
+    content: '←';
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  /* Pay Button */
+  .pay-button {
+    background: linear-gradient(135deg, #2A2196F3, #1a73e8);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(42, 33, 150, 0.2);
+  }
+  
+  .pay-button:hover {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(42, 33, 150, 0.3);
+  }
+  
+  /* Link inside pay button */
+  .pay-button a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .pay-button a::after {
+    content: '→';
+    margin-left: 8px;
+    font-size: 18px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 576px) {
+    .order-summary-container {
+      margin: 30px 15px;
+      padding: 25px 20px;
+    }
+    
+    .order-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+    }
+    
+    .order-image {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .order-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .back-button, .pay-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  /* Animation for page load */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .order-summary-container {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  /* Shipping info styling */
+  .shipping-badge {
+    display: inline-block;
+    background-color: #e6fffa;
+    color: #319795;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    margin-right: 10px;
+  }

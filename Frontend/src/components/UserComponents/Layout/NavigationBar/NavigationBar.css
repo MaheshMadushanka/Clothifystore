@@ -121,6 +121,21 @@
   left: -10px; /* Moves only the cart button */
   
 }
+.see-users-button {
+  margin-top: 10px;
+  background-color: #2a2196f3;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.see-users-button:hover {
+  background-color: #1c168c;
+}
 
 /* Cart Button Hover Effect */
 .cart-button:hover {

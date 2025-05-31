@@ -1,4 +1,4 @@
-/* General body styling */
+/* General body styling
 body {
   height: 100%;
   display: flex;
@@ -11,7 +11,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Form container styling */
 .form-signin {
   width: 100%;
   max-width: 400px;
@@ -21,13 +20,11 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo styling */
 .form-signin img {
   display: block;
   margin: 0 auto 20px auto;
 }
 
-/* Heading styling */
 .form-signin h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -36,7 +33,6 @@ body {
   color: #333;
 }
 
-/* Form input fields styling */
 .form-signin .form-floating {
   margin-bottom: 15px;
 }
@@ -55,7 +51,7 @@ body {
   outline: none;
 }
 
-/* Labels for floating effect */
+Labels for floating effect
 .form-signin .form-floating label {
   position: absolute;
   top: 50%;
@@ -74,7 +70,6 @@ body {
   color: #007bff;
 }
 
-/* Submit button styling */
 .form-signin button {
   width: 100%;
   padding: 10px;
@@ -91,13 +86,11 @@ body {
   background-color: #0056b3;
 }
 
-/* Optional fields styling */
 .form-signin input[type="text"],
 .form-signin input[type="tel"] {
-  background-color: #f8f9fa;
+  background-color: hsl(210, 68%, 38%);
 }
 
-/* Responsive design */
 @media (max-width: 480px) {
   .form-signin {
     padding: 15px;
@@ -117,4 +110,4 @@ body {
     font-size: 14px;
     padding: 8px;
   }
-}
+} */

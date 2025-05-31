@@ -91,7 +91,7 @@ export const createPaymentObject = (orderData, customerData) => {
     return_url: orderData?.returnUrl || undefined,
     cancel_url: orderData?.cancelUrl || undefined,
     notify_url: orderData?.notifyUrl || "http://sample.com/notify",
-    order_id: orderData?.orderId || "ORD" + Math.floor(Math.random() * 10000),
+    order_id: orderData?.orderId ,
     items: orderData?.items || "Product Purchase",
     amount: orderData?.amount || "1000.00",
     currency: orderData?.currency || "LKR",

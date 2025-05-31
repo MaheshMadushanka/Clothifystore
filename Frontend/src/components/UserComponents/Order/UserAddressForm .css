@@ -1,61 +1,223 @@
-/* Center the form */
+/* Modern Form Styling with Enhanced Visual Elements */
 .user-address-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 30px 40px;
+  background: linear-gradient(to bottom right, #ffffff, #f5f8fa);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 
+              0 1px 8px rgba(0, 0, 0, 0.07);
+  font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative elements */
+.user-address-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, #007bff, #00c6ff);
+}
+
+/* Form Title with modern typography */
+.user-address-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+}
+
+/* Form section styling */
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section-title {
+  font-size: 18px;
+  color: #007bff;
+  margin-bottom: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.form-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+  margin-left: 15px;
+}
+
+/* Input fields with floating label effect */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.user-address-container input,
+.user-address-container select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.25s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.user-address-container select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Input field focus effect with animated border */
+.user-address-container input:focus,
+.user-address-container select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Labels with animated positioning */
+.user-address-container label {
+  font-weight: 500;
+  color: #4a5568;
+  display: block;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+/* Optional field indicator */
+.optional {
+  color: #a0aec0;
+  font-weight: normal;
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+/* Row layout for side-by-side fields */
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+.form-row > div {
+  flex: 1;
+}
+
+/* Submit Button with enhanced styling */
+.user-address-container button {
+  width: 100%;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  margin-top: 25px;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Button hover and active states */
+.user-address-container button:hover {
+  background: linear-gradient(135deg, #0069d9, #004494);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.user-address-container button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Button click effect */
+.user-address-container button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.user-address-container button:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+/* Validation styling */
+.user-address-container input:invalid,
+.user-address-container select:invalid {
+  border-color: #f56565;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+/* Helper text */
+.helper-text {
+  color: #718096;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .user-address-container {
+    padding: 25px 20px;
+    margin: 40px 15px;
   }
   
-  /* Form Title */
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
   .user-address-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 24px;
   }
-  
-  /* Input fields */
-  .user-address-container input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+}
+
+/* Animation for button click ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
   }
-  
-  /* Input field focus effect */
-  .user-address-container input:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
   }
-  
-  /* Labels */
-  .user-address-container label {
-    font-weight: bold;
-    color: #555;
-    display: block;
-    margin-top: 10px;
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
   }
-  
-  /* Submit Button */
-  .user-address-container button {
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 15px;
-  }
-  
-  /* Button Hover Effect */
-  .user-address-container button:hover {
-    background-color: #0056b3;
-  }
-  
+}

@@ -35,19 +35,48 @@
 }
 
 /* Product Name */
+/* Product Name */
 .homepage-product-name {
   font-size: 1.2rem; /* Smaller font */
   font-weight: 600;
   margin-bottom: 0.4rem;
   color: #333;
+  
+  /* Fixed height to maintain uniformity */
+  height: 40px; /* Adjust as needed */
+  
+  /* Handle overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  /* If multiline truncation is needed */
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limits to 1 line */
+  -webkit-box-orient: vertical;
 }
+
 
 /* Product Description */
 .homepage-product-description {
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 0.8rem;
+  
+  /* Fixed height for uniform size */
+  height: 50px;  /* Adjust this value as needed */
+  
+  /* Prevents overflow issues */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
+  /* If multiline truncation is needed */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limits to 2 lines */
+  -webkit-box-orient: vertical;
 }
+
 
 /* Product Price */
 .homepage-product-price {
@@ -147,4 +176,30 @@
     flex-direction: column; /* Stack buttons */
     gap: 0.4rem;
   }
+}
+.homepage-btn-edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #2a2196;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.homepage-btn-edit:hover {
+  background-color: #1b1473;
+}
+
+.homepage-card {
+  position: relative; /* Ensures the edit button is positioned inside the card */
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }

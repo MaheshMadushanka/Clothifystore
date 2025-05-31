@@ -90,6 +90,67 @@
 .homepage-btn-add:hover {
     background: #0086e6;
 }
+//* Quantity Selector */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 40%; /* Set the container to 40% width */
+}
+
+/* Label */
+.quantity-selector label {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap; /* Prevents label from wrapping */
+}
+
+/* Input Field */
+.quantity-input {
+    width: 60px; /* Fixed width for the input itself */
+    padding: 10px; 
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Remove this conflicting style or merge it with the one above */
+/* input[type="number"],
+.quantity-input {
+  width: 40%;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.3s;
+  background-color: #f9fafc;
+  color: #333;
+  box-sizing: border-box;
+} */
+
+/*  Responsive Design */
+@media (max-width: 1024px) {
+    .quantity-selector {
+        justify-content: flex-start; /* Align to the left */
+        width: 40%; /* Maintain width on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .quantity-selector {
+        width: 50%; /* Slightly wider on smaller tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .quantity-selector {
+        width: 100%; /* Full width on mobile */
+        justify-content: flex-start;
+    }
+    
+    .quantity-input {
+        width: 60px; /* Keep input size consistent */
+    }
+}
 
 /* 📱 Responsive Design */
 

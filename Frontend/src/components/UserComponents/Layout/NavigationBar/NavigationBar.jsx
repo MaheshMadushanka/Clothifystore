@@ -8,6 +8,8 @@ import ProductDisplay from "../../ProductCard/ProductDisplay";
 
 function NavigationBar() {
 
+
+
   const [show, setshow] = useState(false);
   const [showCart, setshowCart] = useState(false);
   const [cart, setCart] = useState([])
@@ -22,11 +24,15 @@ function NavigationBar() {
     productPrice: "",
     product_description: ""
   }]);
+  const [isAdmin, setisAdmmin] = useState(false);
   const navigate = useNavigate();
   const [token, setToken] = useState(null);
 
   useEffect(() => {
     setToken(localStorage.getItem("authToken"));
+    setUser({
+      profilePicture:localStorage.getItem("picUrl")
+    })
   }, []);
 
   useEffect(() => {
@@ -59,6 +65,12 @@ function NavigationBar() {
     location.reload()
 
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("RoleID") == "1") {
+      setisAdmmin(true);
+    }
+  })
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("product")) || [];
     setCart(storedCart);
@@ -130,7 +142,8 @@ function NavigationBar() {
 
   const handleSignOut = () => {
     localStorage.removeItem("authToken");
-    localStorage.removeItem("redirectPath")
+    localStorage.removeItem("redirectPath");
+    localStorage.removeItem("picUrl")
     setProducts([{
       productID: '',
       product_name: "",
@@ -148,6 +161,10 @@ function NavigationBar() {
     console.log("Stored Redirect Path before signing out: " + localStorage.getItem("redirectPath"));
 
     navigate("/Signin");
+  };
+  const handleEditProduct = (productID) => {
+    console.log("Edit product with ID:", productID);
+    navigate(`/editeProduct/${productID}`);
   };
 
   return (
@@ -194,16 +211,24 @@ function NavigationBar() {
         </div>
       )}
       <div className="cart-container">
-        <button className="cart-button" onClick={() => setshowCart(!showCart)}>
-          🛒 Cart ({cart.length})
-        </button>
-        {showCart && (
+        {isAdmin ? (
+          <button className="see-users-button" onClick={() => navigate("/adminUserList")}>
+            See All Users
+          </button>
+        ) : (
+          <button className="cart-button" onClick={() => setshowCart(!showCart)}>
+            🛒 Cart ({cart.length})
+          </button>
+        )}
+
+        {!isAdmin && showCart && (
           <div className="cart-dropdown">
             {cart.length > 0 ? (
               <ul>
                 {cart.map((item, index) => (
-                  <li key={index}>{item.product_name} - ${item.productPrice}</li>
-
+                  <li key={index}>
+                    {item.product_name} - ${item.productPrice}
+                  </li>
                 ))}
                 <button onClick={ClearCart}>Clear Cart</button>
               </ul>
@@ -213,6 +238,7 @@ function NavigationBar() {
           </div>
         )}
       </div>
+
 
       {token ? (
         <div className="dropdown">
@@ -232,10 +258,10 @@ function NavigationBar() {
           </a>
           <ul className="dropdown-menu text-small">
             <li>
-              <a className="dropdown-item" href="#">Settings</a>
+              <Link className="dropdown-item" to="/ordersPage">Orders</Link>
             </li>
             <li>
-              <a className="dropdown-item" href="#">Profile</a>
+              <Link className="dropdown-item" to="/profileSetting">Profile</Link>
             </li>
             <li>
               <button className="dropdown-item" onClick={handleSignOut}>
@@ -249,7 +275,7 @@ function NavigationBar() {
           <Link to={"/Signin"} onClick={localStorage.setItem("redirectPath", "/homepage")}>Sign In</Link>
         </button>
       )}
-      {show ? (<ProductDisplay products={products} />) : (<p></p>)}
+      {show ? (<ProductDisplay products={products} onEditProduct={handleEditProduct} />) : (<p></p>)}
 
     </div>
   );

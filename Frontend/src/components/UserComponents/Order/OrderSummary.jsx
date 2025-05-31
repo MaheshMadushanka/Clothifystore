@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import "./OrderSummary.css";
 import { useAuth } from "../../../Context/AuthContext";
@@ -6,64 +6,63 @@ import { useAuth } from "../../../Context/AuthContext";
 const OrderSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { product, quantity } = location.state || {};
   const { user } = useAuth();
+  const [orderData, setOrderData] = useState(null);
 
-  if (!product) return <p>No order details available</p>;
+  // Fix: Use optional chaining to prevent error if orderData is null
+  const product = orderData?.product || {};
+  const quantity = orderData?.quantity || 0;
+  const totalCost = orderData?.totalCost || 0; 
 
-  // Ensure productPrice is a valid number
-  const productPrice = Number(product.productPrice) || 0;
-  const shippingCost = 5.99;
-  const totalCost = productPrice * quantity + shippingCost;
-
-  // Function to save order to backend
-
-  const token = localStorage.getItem("authToken")
   useEffect(() => {
-    if (!token) {
-      localStorage.setItem("redirectPath", "/order-summary")
-      navigate("/login");
-    } else {
-      const orderData = {
-        productId: product.id,
-        productName: product.product_name,
-        orderAmount: productPrice,
-        shippingCost: shippingCost,
-        totalCost: totalCost,
-      };
-      localStorage.setItem("orderData", JSON.stringify(orderData));
+    let productData = location.state?.product;
+    let quantityData = location.state?.quantity;
 
+    // If no product data in location.state, try fetching from localStorage
+    if (!productData || !quantityData) {
+      const storedOrder = localStorage.getItem("orderData");
+      if (storedOrder) {
+        const parsedOrder = JSON.parse(storedOrder);
+
+        productData = parsedOrder.product;
+        quantityData = parsedOrder.quantity;
+      }
     }
-  }, [user, navigate, location.pathname]);
 
-  // const saveOrder = async () => {
+    if (!productData) {
+      setOrderData(null);
+      console.log("producData  no")
+    } else {
+      const productPrice = Number(productData.productPrice) || 0;
+      const shippingCost = 5.99;
+      const calculatedTotalCost = productPrice * quantityData + shippingCost;
+      console.log("ordrData save..")
+      setOrderData({ product: productData, quantity: quantityData, totalCost: calculatedTotalCost,productAmount:productPrice * quantityData });
+      console.log( "product",productData, "quantity: ",quantityData, "totalCost: ",calculatedTotalCost,"productAmount",productPrice * quantityData);
+      localStorage.setItem("orderData", JSON.stringify(orderData));
+      localStorage.setItem("totalCost", calculatedTotalCost);
+      
+    }
+  }, [location]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      localStorage.setItem("redirectPath", "/order-summary");
+      navigate("/login");
+    }
+  }, [user, navigate ]);
 
-  //   const orderData = {
-  //     productId: product.id, 
-  //     productName: product.product_name,
-  //     userID:localStorage.getItem("userID"),
-  //     orderAmount: productPrice,
-  //     shippingCost: shippingCost,
-  //     totalCost: totalCost,
-  //   };
+  useEffect(()=>{
+    if (orderData) {
+      localStorage.setItem("orderData", JSON.stringify(orderData));
+      localStorage.setItem("totalCost", orderData.totalCost);
+      localStorage.setItem("quantity",quantity)
+      console.log("totalCost  ", orderData.totalCost);
+    }
+  },[orderData])
 
-  //   try {
-  //     const response = await axios.post("http://localhost:8081/product/", {
-  //       method:"POST",
-  //       header:{
-  //         "Content-tyep":"application/json",
-  //         "Authorization":`Bearer ${token}`
-  //       },
-  //       body:JSON.stringify(orderData)
-  //     });
-  //     console.log("Order saved:", response.data);
-  //     navigate("/payment"); // Navigate to payment after successful save
-  //   } catch (error) {
-  //     console.error("Error saving order:", error);
-  //     alert("Failed to save order. Please try again.");
-  //   }
-  // };
+  if (!orderData) return <p>No product details available</p>;
 
   return (
     <div className="order-summary-container">
@@ -75,13 +74,13 @@ const OrderSummary = () => {
         <div>
           <p className="order-name">{product.product_name}</p>
           <p>Quantity: {quantity}</p>
-          <p>Price: ${productPrice.toFixed(2)}</p>
+          <p>Price: ${Number(product.productPrice || 0).toFixed(2)}</p>
         </div>
       </div>
 
       {/* Shipping & Total */}
       <div className="order-total">
-        <p>Shipping Cost: ${shippingCost.toFixed(2)}</p>
+        <p>Shipping Cost: $5.99</p>
         <h3>Total: ${totalCost.toFixed(2)}</h3>
       </div>
 
@@ -90,7 +89,7 @@ const OrderSummary = () => {
         <button className="back-button" onClick={() => navigate(-1)}>
           ← Back to Product
         </button>
-        <button className="pay-button" >
+        <button className="pay-button">
           <Link to="/userAddressForm">Proceed to Payment</Link>
         </button>
       </div>
